@@ -127,12 +127,12 @@ command.
 
 The following registers are used as parameters when a function is called in x64 assembly. Try and commit these to memory, as you’ll use these frequently in the future:
 
-• First Argument: RDI
-• Second Argument: RSI
-• Third Argument: RDX
-• Fourth Argument: RCX
-• Fifth Argument: R8
-• Sixth Argument: R9
+- First Argument: RDI
+- Second Argument: RSI
+- Third Argument: RDX
+- Fourth Argument: RCX
+- Fifth Argument: R8
+- Sixth Argument: R9
 
 `-G0`: says to the breakpoint to not automatically resume execution after the action has been performed
 
@@ -197,12 +197,12 @@ I do forget this assembly registers all the time but fortunately there is a way 
 (lldb) po $arg1
 ```
 
-arg1 -> rdi
-arg2 -> rsi
-arg3 -> rdx
-arg4 -> rcx
-arg5 -> r8
-arg6 -> r9
+- arg1 -> rdi
+- arg2 -> rsi
+- arg3 -> rdx
+- arg4 -> rcx
+- arg5 -> r8
+- arg6 -> r9
 
 There is a special case for arg2 which represents the selector, because of lldb doesn't know the type of this arguments you need to explictly type cast it.
 
