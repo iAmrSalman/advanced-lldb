@@ -5,13 +5,13 @@ This guide contains the following content to ease your beginner journey to (lldb
 - [x] Object inspection 
 - [x] Code modification
 - [x] Breakpoints manipulation
-- [ ] Tips and tricks
+- [x] Tips and tricks
 
 ## Object inspection
 
 In this section we will use po, p and v commands to inspect any suspicious objects in your debugging journey. 
 
-### (lldb) po
+### (lldb) po <expression>
 
 print object description this is compiled expression that has a full access to the language 
 
@@ -21,6 +21,8 @@ print object description this is compiled expression that has a full access to t
 (lldb) po <object_name>
 ```
 > you can also print a objcet child proprty value using dot notaion `po <object_name>.<property_name>`
+
+> also make modification to your code 'po <object_name>.boolProperty = false'
 
 #### customizing printed message
 
@@ -34,9 +36,9 @@ extension <type_name>: CostomDebugStringConvertible {
 }
 ```
 
-### (lldb) p
+### (lldb) p <expression>
 
-print object using DataFormatters this is compiled expression that has a full access to the language 
+this is compiled expression that has a full access to the language and output LLDB-formatted description (DataFormatter)
 
 #### Usage
 
@@ -45,9 +47,9 @@ print object using DataFormatters this is compiled expression that has a full ac
 ```
 > you can also print a objcet child proprty value using dot notaion `p <object_name>.<property_name>`
 
-### (lldb) v
+### (lldb) v <name>
 
-print object using DataFormatters this is not compiled expression and has no access to the language (FASTER!)
+reads value of <name> from memory and output LLDB-formatted description (FASTER!)
 
 #### Usage
 
@@ -210,10 +212,77 @@ There is a special case for arg2 which represents the selector, because of lldb 
 (lldb) po (SEL)$arg2
 ```
 
+### Replacing code
+
+I can't count how many times i needed to replace a line of code and put another.
+
+``` bash 
+(lldb) thread jump --by 1
+```
+
+This will skip one line.
+
+``` bash
+(lldb) expression isThisreal = false
+```
+
+### New tab for Debug
+
+This is very useful feature in Xcode, you can make xcode create new tab for debug automatically
+
+goto xcode menu >> prefrances >> behaviors >> Pauses >> check Show tab named [Debug] in [Active window]
+
+### UI manipulation
+
+1. Get the memory address for this view.
+
+``` bash
+(lldb) expression -l objc -o -- [`self.view` recursiveDescription]
+```
+
+2. use view's memory address to modify its properties.
+
+``` bash
+(lldb) expression -l objc -o -- 0x7fb3afc40e90
+```
+
+there is another way to do this 
+
+``` bash
+(lldb) po unsafeBitCast(, to: <type_name>.self)
+```
+
+now you can modify any property
+
+``` bash
+(lldb) po unsafeBitCast(, to: <type_name>.self).center.y = 300
+```
+
+3. Finally update the screen's frame buffer
+
+``` bash 
+(lldb) expression CATransaction.flush()
+```
+
+### Aliases
+
+This is very useful to shortening long commands, po in objective c is very good example .
+
+``` bash
+(lldb) command alias poc expression -l objc -o --
+```
+
+now i can do this
+
+``` bash
+(lldb) poc 0x7fb3afc40e90
+```
+
 ## More info
 
 - [WWDC18 Advanced debugging with Xcode and lldb](https://developer.apple.com/wwdc18/412)
 - [WWDC19 lldb beyond po](https://developer.apple.com/wwdc19/429)
+- [raywenderlich's Apple Debugging and Reverse Engineering](https://store.raywenderlich.com/products/advanced-apple-debugging-and-reverse-engineering)
 
 ## Auther
 
