@@ -240,7 +240,7 @@ goto xcode menu >> prefrances >> behaviors >> Pauses >> check Show tab named [De
 (lldb) expression -l objc -o -- [`self.view` recursiveDescription]
 ```
 
-2. use view's memory address to modify its properties.
+2. Use view's memory address to modify its properties.
 
 ``` bash
 (lldb) expression -l objc -o -- 0x7fb3afc40e90
